@@ -13,17 +13,32 @@ variables:
 
 stages:
 - stage: Build
-  displayName: Build image
+  displayName: Build Docker Image
   jobs:
   - job: Build
-    displayName: Build
+    displayName: Docker Build Job
     pool:
-      vmImage: ubuntu-latest
+      vmImage: 'ubuntu-latest'
     steps:
     - task: Docker@2
-      displayName: Build an image
+      displayName: Build Docker image
       inputs:
         command: build
         dockerfile: '$(Build.SourcesDirectory)/azure-vote/Dockerfile'
         tags: |
           $(tag)
+
+- stage: Deploy
+  displayName: Simulated Deploy
+  dependsOn: Build
+  jobs:
+  - job: Deploy
+    displayName: Fake deploy job
+    pool:
+      vmImage: 'ubuntu-latest'
+    steps:
+    - script: |
+        echo "Simulando deploy para ambiente de staging..."
+        echo "Imagem com tag $(tag) pronta para ser usada!"
+      displayName: "Simulate Deploy Step"
+
