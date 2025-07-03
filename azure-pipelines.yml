@@ -3,7 +3,7 @@
 # https://docs.microsoft.com/azure/devops/pipelines/languages/docker
 
 trigger:
-- master
+- main  # <--- alterado para main (ajuste se necessário)
 
 resources:
 - repo: self
@@ -24,7 +24,7 @@ stages:
       displayName: Build Docker image
       inputs:
         command: build
-        dockerfile: '$(Build.SourcesDirectory)/azure-vote/Dockerfile'
+        dockerfile: '$(Build.SourcesDirectory)/Dockerfile'  # <-- ajuste aqui se necessário
         tags: |
           $(tag)
 
@@ -41,4 +41,3 @@ stages:
         echo "Simulando deploy para ambiente de staging..."
         echo "Imagem com tag $(tag) pronta para ser usada!"
       displayName: "Simulate Deploy Step"
-
